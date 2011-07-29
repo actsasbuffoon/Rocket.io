@@ -1,0 +1,15 @@
+h1 Important Differences
+p As mentioned previously, Rocket.io is very different from other development frameworks. Here are a few of the primary things you'll need to adjust to.
+
+p First, Rocket handles everything via JSON message passing. When the client clicks a buttons it will send a JSON message to the server. Here are a few examples of messages:
+
+pre
+  code
+    rocket("Movie.index");
+    //Calls the "index" action on the "Movie" controller.
+    
+    rocket({"Movie.show", {id: 42}});
+    //Calls the "show" action on the "Movie" controller, and pass the hash along as arguments.
+    
+    rocket(["Movie.index", "User.update"]);
+    //Calls the two commands one after another. Note that 

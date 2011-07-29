@@ -1,0 +1,14 @@
+h1= title
+form(action=action, method='POST')
+  input(type='hidden', name='movie[_id]', value=movie._id)
+  != hidden_input("movie._id", movie._id)
+  
+  != text_input("movie.name", movie.name)
+  
+  != text_input("movie.year", movie.year)
+  
+  != text_input("movie.stars", movie.stars)
+  
+  != textarea_input("movie.description", movie.description)
+  
+  input(type='submit')

@@ -1,0 +1,17 @@
+html
+  head
+    link(rel='stylesheet', type='text/css', href='main.css')
+    title!= "Rocket.io: " + title
+  body
+    #wrapper
+      #header
+        img#logo(src='rocket_io_logo.png')
+        h1 Rocket.io
+        h2 Prepare for liftoff
+      #navigation
+        #ul
+          != navigation
+      #main!= content
+      #footer
+        p Rocket.io and all associated documentation are released under the MIT license. You may use, modify, and redistribute the aforementioned works for any purpose, including commercial. In other words, I'm not going to sue you, so stop worrying and have fun with it.
+      

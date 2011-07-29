@@ -1,0 +1,16 @@
+h1= movie.name
+b Year:
+= movie.year
+br
+b Stars:
+= movie.stars
+
+h2 Description
+#description!= movie.description
+
+hr
+!= link_to("Back to movie list", {'Movie.index': ""})
+\ \| 
+!= link_to("Edit", {'Movie.edit': {id: movie._id}})
+\ \| 
+!= link_to("Delete", {"Movie.delete": {id: movie._id}})

@@ -1,0 +1,9 @@
+h1 Listing Movies
+
+#movie-list
+  ul.movies
+    - for (var i in movies)
+      li
+        != link_to(movies[i].name, {"Movie.show": {_id: movies[i]["_id"]}})
+
+!= link_to("Create New Listing", {"Movie.new": ""}, {class: "button"})
