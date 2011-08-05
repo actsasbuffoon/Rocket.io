@@ -1,6 +1,10 @@
 class MovieController
   bolt Rocket::Controller
   
+  #before_filter :say_hello
+  #before_filter :on_show_or_index, :only([:show, :index])
+  #before_filter :not_on_show_or_index, :except([:show, :index])
+  
   define_action :index do
     Movie.find do |movies|
       current_user.transmit({"Movie.index" => {movies: movies}})
@@ -18,8 +22,12 @@ class MovieController
   end
   
   define_action :create do
-    Movie.new(params["movie"]).save do |movie|
-      current_user.transmit "Movie.show" => {movie: movie}
+    Movie.new(params["movie"]).save do |movie, success|
+      if !success
+        current_user.transmit "App.form_errors" => {errors: movie.errors}
+      else
+        current_user.transmit "Movie.show" => {movie: movie}
+      end
     end
   end
   
@@ -30,11 +38,14 @@ class MovieController
   end
   
   define_action :update do
-    puts params.inspect
     Movie.find_one(_id: params["movie"]["_id"]) do |movie|
       movie.update params["movie"]
-      movie.save do |mv|
-        current_user.transmit "Movie.show" => {movie: mv}
+      movie.save do |mv, success|
+        if success
+          current_user.transmit "Movie.show" => {movie: mv}
+        else
+          current_user.transmit "App.form_errors" => {errors: movie.errors}
+        end
       end
     end
   end

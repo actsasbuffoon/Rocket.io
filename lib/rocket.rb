@@ -23,7 +23,7 @@ require File.join(APP_ROOT, "lib", "lib", 'runner.rb')
 
 ROCKET = Rocket.new
 
-#ROCKET.compile_docs
+ROCKET.compile_docs
 
 ROCKET.prepare_js
 ROCKET.run

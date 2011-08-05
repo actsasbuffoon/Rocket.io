@@ -6,23 +6,24 @@ html, body {
 }
 
 #wrapper {
-  width: 750px;
+  width: 960px;
   background: #333;
   color: white;
   margin: 0px auto;
-  min-height: 100%;
   -webkit-box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.75);
 }
 
 #footer {
   border-top: 1px solid #777;
-  margin-top: 10px;
+  margin-top: 0px;
   padding: 10px;
+  float: left;
+  clear: both;
 }
 
 #header {
   border-bottom: 1px solid #777;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   padding: 10px;
 }
 
@@ -46,7 +47,15 @@ html, body {
 }
 
 #main {
-  padding: 10px;
+  padding: 10px 20px 0px 10px;
+  width: 740px;
+  float: left;
+  border-left: 1px solid #777;
+  clear: right;
+}
+
+#main > h1:first-child {
+  margin-top: 0px;
 }
 
 a {
@@ -54,7 +63,31 @@ a {
 }
 
 #navigation {
-  padding: 10px;
+  padding: 0px;
+  margin: 0px;
+  float: left;
+  width: 180px;
+  clear: left;
+}
+
+#navigation ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+#navigation ul li a {
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+}
+
+#navigation ul li a:hover {
+  background: #336;
+}
+
+#navigation ul li:nth-child(odd) {
+  background: #222;
 }
 
 strike {
@@ -72,4 +105,17 @@ code {
   color: #CCC;
   border-radius: 10px;
   display: block;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+ 
+.clearfix {
+  display: inline-block;
 }

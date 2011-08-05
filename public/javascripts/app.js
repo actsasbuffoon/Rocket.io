@@ -2,6 +2,10 @@ var jade = require('jade')
 var socket = false
 var first_connect = false
 
+var form_errors = function(errors) {
+  $("#form_errors").html(templates.app.form_errors(errors))
+}
+
 var submit_callback = function(evnt) {
   evnt.preventDefault()
   elem = $(evnt.target)
@@ -12,6 +16,9 @@ var submit_callback = function(evnt) {
     el = $(e)
     if (el.val()) {
       vals[el.attr("name")] = el.val()
+    }
+    else {
+      vals[el.attr("name")] = null
     }
   })
   obj = {}

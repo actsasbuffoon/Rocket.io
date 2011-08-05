@@ -90,3 +90,23 @@ a.button:hover {
   background: #CCE;
   background: -webkit-linear-gradient(top, #EEF, #AAC);
 }
+
+#form_errors:empty {
+  border: none;
+  background: transparent;
+  padding: 0px;
+}
+
+#form_errors {
+  border: 3px solid red;
+  padding: 10px;
+  border-radius: 5px;
+  background: #FDD;
+}
+
+#form_errors h2 {
+  margin: 0px;
+  padding: 0px;
+  font-size: 18pt;
+  color: red;
+}

@@ -1,0 +1,13 @@
+h1 GroundControl
+
+p GroundControl is the C part of the MVC framework. GroundControl is pretty simple, compared to a framework like Rails. Requests from users get routed to a controller, and the controller does whatever processing it needs to. Most controller actions in Rails access the database and send a response back to the user. Rocket is capable of the same, but has some other tricks up its sleeve. For instance, since everything in Rocket is a WebSocket message, you don't have to send a response. Or you can send a message to the user even when they haven't requested anything.
+
+p GroundControl also includes a simple way of creating client side controllers in Javascript. One of the most important ideas in Rocket is that we tend to develop solutions that make the server do all the work, even when a user's computer is perfectly capable of doing the same thing. Consider generating the HTML for product list. In a Rails app, you might retrieve an array of products from the database, then call your template renderer which iterates over the list and produces the HTML, which yo send to the user.
+
+p Rocket would handle this very differently. In Rocket you would retrieve an array of products from Mongo (which is already JSON). You send a message to the user that you want them to render the product list template, and pass the JSON to them as an argument. The end result is the same, but you've just offloaded a huge amount of work onto your user, freeing the server up to handle the next request. As an added bonus, the JSON data is almost certainly smaller than the rendered HTML template, so you're also saving bandwidth.
+
+p In Rocket, we try to push all the work onto the client that doesn't create a security risk. Unless you're dealing with credit card numbers, data validation, authorization, etc., you should try to make the client do the work.
+
+h2 Basics
+
+p Much like Rails, controller files go in the app/controllers directory. Unlike Rails, you have a Ruby controller (server-side) and a Javascript controller (client-side). It may sound complicated, but it's actually very simple.

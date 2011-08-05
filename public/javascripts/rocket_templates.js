@@ -7,6 +7,97 @@ templates = {}
 templates.app = {}
 
 
+// * * * * * Dump of templates.app.form_errors * * * * *
+
+
+templates.app.form_errors = function anonymous(locals) {
+var __ = { lineno: 1, input: "h2 There was an error with processing your input\nul\n  - for (var er in errors) {\n    li= errors[er]\n  - }", filename: undefined };
+function rethrow(err, str, filename, lineno){
+  var context = 3
+    , lines = str.split('\n')
+    , start = Math.max(lineno - context, 0)
+    , end = Math.min(lines.length, lineno + context); 
+
+  // Error context
+  var context = lines.slice(start, end).map(function(line, i){
+    var curr = i + start + 1;
+    return (curr == lineno ? '  > ' : '    ')
+      + curr
+      + '| '
+      + line;
+  }).join('\n');
+
+  // Alter exception message
+  err.path = filename;
+  err.message = (filename || 'Jade') + ':' + lineno 
+    + '\n' + context + '\n\n' + err.message;
+  throw err;
+}
+try {
+function attrs(obj){
+  var buf = []
+    , terse = obj.terse;
+  delete obj.terse;
+  var keys = Object.keys(obj)
+    , len = keys.length;
+  if (len) {
+    buf.push('');
+    for (var i = 0; i < len; ++i) {
+      var key = keys[i]
+        , val = obj[key];
+      if ('boolean' == typeof val || null == val) {
+        if (val) {
+          terse
+            ? buf.push(key)
+            : buf.push(key + '="' + key + '"');
+        }
+      } else if ('class' == key && Array.isArray(val)) {
+        buf.push(key + '="' + escape(val.join(' ')) + '"');
+      } else {
+        buf.push(key + '="' + escape(val) + '"');
+      }
+    }
+  }
+  return buf.join(' ');
+}
+function escape(html){
+  return String(html)
+    .replace(/&(?!\w+;)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+var buf = [];
+with (locals || {}) {var interp;
+__.lineno = 1;
+__.lineno = 1;
+buf.push('<h2>');
+buf.push('There was an error with processing your input');
+__.lineno = undefined;
+buf.push('</h2>');
+__.lineno = 3;
+buf.push('<ul>');
+__.lineno = undefined;
+__.lineno = 3;
+ for (var er in errors) {
+{
+__.lineno = 4;
+__.lineno = 4;
+buf.push('<li>');
+var __val__ = errors[er]
+buf.push(escape(null == __val__ ? "" : __val__));
+__.lineno = undefined;
+buf.push('</li>');
+}
+__.lineno = 5;
+ }
+buf.push('</ul>');}return buf.join("");
+} catch (err) {
+  rethrow(err, __.input, __.filename, __.lineno);
+}
+}
+
+
 // * * * * * Dump of templates.app.index * * * * *
 
 
@@ -218,7 +309,7 @@ templates.movie = {}
 
 
 templates.movie.edit = function anonymous(locals) {
-var __ = { lineno: 1, input: "h1= title\nform(action=action, method='POST')\n  input(type='hidden', name='movie[_id]', value=movie._id)\n  != hidden_input(\"movie._id\", movie._id)\n  \n  != text_input(\"movie.name\", movie.name)\n  \n  != text_input(\"movie.year\", movie.year)\n  \n  != text_input(\"movie.stars\", movie.stars)\n  \n  != textarea_input(\"movie.description\", movie.description)\n  \n  input(type='submit')", filename: undefined };
+var __ = { lineno: 1, input: "h1= title\n#form_errors\nform(action=action, method='POST')\n  input(type='hidden', name='movie[_id]', value=movie._id)\n  != hidden_input(\"movie._id\", movie._id)\n  \n  != text_input(\"movie.name\", movie.name)\n  \n  != text_input(\"movie.year\", movie.year)\n  \n  != text_input(\"movie.stars\", movie.stars)\n  \n  != textarea_input(\"movie.description\", movie.description)\n  \n  input(type='submit')", filename: undefined };
 function rethrow(err, str, filename, lineno){
   var context = 3
     , lines = str.split('\n')
@@ -283,31 +374,37 @@ var __val__ = title
 buf.push(escape(null == __val__ ? "" : __val__));
 __.lineno = undefined;
 buf.push('</h1>');
-__.lineno = 3;
+__.lineno = 2;
+buf.push('<div');
+buf.push(attrs({ 'id':('form_errors') }));
+buf.push('>');
+__.lineno = undefined;
+buf.push('</div>');
+__.lineno = 4;
 buf.push('<form');
 buf.push(attrs({ 'action':(action), 'method':('POST') }));
 buf.push('>');
 __.lineno = undefined;
-__.lineno = 4;
+__.lineno = 5;
 buf.push('<input');
 buf.push(attrs({ 'type':('hidden'), 'name':('movie[_id]'), 'value':(movie._id) }));
 buf.push('/>');
-__.lineno = 4;
+__.lineno = 5;
 var __val__ = hidden_input("movie._id", movie._id)
 buf.push(null == __val__ ? "" : __val__);
-__.lineno = 6;
+__.lineno = 7;
 var __val__ = text_input("movie.name", movie.name)
 buf.push(null == __val__ ? "" : __val__);
-__.lineno = 8;
+__.lineno = 9;
 var __val__ = text_input("movie.year", movie.year)
 buf.push(null == __val__ ? "" : __val__);
-__.lineno = 10;
+__.lineno = 11;
 var __val__ = text_input("movie.stars", movie.stars)
 buf.push(null == __val__ ? "" : __val__);
-__.lineno = 12;
+__.lineno = 13;
 var __val__ = textarea_input("movie.description", movie.description)
 buf.push(null == __val__ ? "" : __val__);
-__.lineno = 14;
+__.lineno = 15;
 buf.push('<input');
 buf.push(attrs({ 'type':('submit') }));
 buf.push('/>');

@@ -15,59 +15,13 @@ class Rocket
   module Model
     # Handles basic CRUD operations, type casting, validations, and basic relations
     
-    @conversion_methods = {}
-    
     # A callback that runs after a class bolts ModelRocket. Should not need
     # to be called directly by users.
     def self.bolted(other)
       Rocket.models[other.to_s.to_sym] = other
     end
     
-    # A hash of procs that will be run to cast variables to the correct format.
-    def self.conversion_methods
-      @conversion_methods
-    end
-    
-    # This is how you tell ModelRocket how to convert data into whatever type
-    # you need. Since most data in Rocket.io will come from JSON, and all JSON values
-    # are strings, this is pretty much essential.
-    #
-    # You might write something like this inside your model class:
-    # class Movie
-    #   bolt Rocket::Model
-    #
-    #   define_converter(:integer) do |value|
-    #     value.to_i
-    #   end
-    # end
-    def self.define_converter(type, &callback)
-      @conversion_methods[type.to_sym] = callback
-    end
-    
-    define_converter(:int) do |v|
-      v.to_i
-    end
-    
-    define_converter(:string) do |v|
-      v.to_s
-    end
-    
-    define_converter(:float) do |v|
-      v.to_f
-    end
-    
-    define_converter(:id) do |v|
-      if v.class == BSON::ObjectId
-        v
-      elsif v.class == Hash
-        BSON::ObjectId(v["$oid"])
-      else
-        BSON::ObjectId(v)
-      end
-    end
-    
     module ClassMethods
-      
       @@fields = {}
       @@collection = nil
       
@@ -125,14 +79,29 @@ class Rocket
       
       # Saves a record and runs the callback on completion.
       def save(&callback)
-        if self._id
-          id = self._id
-          self.class.collection.update({_id: self._id}, @attributes, upsert: true)
+        run_callback :before_validation
+        if validate_fields
+          run_callback :after_validation
+          if self._id
+            run_callback :before_save
+            run_callback :before_update
+            id = self._id
+            self.class.collection.update({_id: self._id}, @attributes, upsert: true)
+            run_callback :after_save
+            run_callback :after_update
+          else
+            run_callback :before_save
+            run_callback :before_create
+            id = self.class.collection.save @attributes
+            run_callback :after_save
+            run_callback :after_create
+          end
+          self.class.find({_id: id}) do |record|
+            callback.call(record.first, true)
+          end
         else
-          id = self.class.collection.save @attributes
-        end
-        self.class.find({_id: id}) do |record|
-          callback.call(record.first)
+          puts "Errors: #{@errors.inspect}"
+          callback.call(self, false)
         end
       end
       
@@ -142,23 +111,34 @@ class Rocket
       
       # Destroys the record and runs the callback on completion.
       def destroy(&callback)
+        run_callback :before_destroy
         if @attributes["_id"]
           self.class.collection.remove({_id: @attributes["_id"]})
           callback.call true
         else
           callback.call false
         end
+        run_callback :after_destroy
       end
       
       # Takes a hash and turns it into an instance of your class. Runs
       # the data through any required converters as well.
       def initialize(args)
         @attributes = {}
-        args.each_pair do |k, v|
-          if self.class.fields[k.to_sym]
-            v = convert_field(v, self.class.fields[k.to_sym])
+        puts "Initializing #{self.class} with args: #{args.inspect}"
+        if args
+          args.each_pair do |k, v|
+            k = k.to_sym
+            if self.class.fields[k.to_sym]
+              v = convert_field(v, self.class.fields[k.to_sym])
+            end
+            @attributes[k] = v
           end
-          @attributes[k] = v
+        end
+        if self.class.fields && self.class.fields.length > 0
+          self.class.fields.each_pair do |f, v|
+            @attributes[f] ||= nil
+          end
         end
       end
       
@@ -173,17 +153,17 @@ class Rocket
       def to_json(*args)
         attributes.to_json()
       end
-      
-      private
-      def convert_field(value, type)
-        Rocket::Model.conversion_methods[type].call value
-      end
     end
     
   end
   
-  Dir[File.join(APP_ROOT, "app", "models", "*.rb")].each do |f|
-    require File.expand_path(f)
-  end
-  
+end
+
+Dir[File.join(APP_ROOT, "lib", "lib", "model", "*.rb")].each do |f|
+  puts "Requiring #{File.expand_path f}"
+  require File.expand_path(f)
+end
+
+Dir[File.join(APP_ROOT, "app", "models", "*.rb")].each do |f|
+  require File.expand_path(f)
 end
