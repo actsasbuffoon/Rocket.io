@@ -9,11 +9,8 @@ class Movie
   
   validates_numericality_of :year
   validates_numericality_of :stars
-  validates_length_of :year, minimum: 1870, maximum: Time.now.year, message: "The year cannot be later than the current year, nor can it land before the invention of the movie camera."
   validates_presence_of :name
   validates_presence_of :description
-  
-  callback :before_validation, Proc.new() {puts "I'm about to validate. Woohoo!"}
   
   # acceptance (like TOS)
   # associated (only allow if associated records work, too)

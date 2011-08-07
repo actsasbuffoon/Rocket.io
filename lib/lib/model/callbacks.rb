@@ -1,8 +1,8 @@
 class Rocket
   module Model
     
-    module ClassMethods
-      @@callbacks = {
+    on_bolted do |cls|
+      cls.instance_variable_set "@callbacks".to_sym, {
         before_validation: [],
         after_validation: [],
         before_save: [],
@@ -14,28 +14,30 @@ class Rocket
         before_destroy: [],
         after_destroy: []
       }
+    end
+    
+    module ClassMethods
       
       def callback(cb, mthd)
         if cb.respond_to?(:each)
           cb.each do |c|
-            @@callbacks[c] << mthd
-            @@callbacks[c].flatten!
+            @callbacks[c] << mthd
+            @callbacks[c].flatten!
           end
         else
-          @@callbacks[cb] << mthd
-          @@callbacks[cb].flatten!
+          @callbacks[cb] << mthd
+          @callbacks[cb].flatten!
         end
       end
       
       def callbacks
-        @@callbacks
+        @callbacks
       end
       
     end
     
     module InstanceMethods
       def run_callback(cb)
-        puts "Running Callback: #{cb.inspect}"
         self.class.callbacks[cb].each do |c|
           if c.class == Symbol
             self.send c

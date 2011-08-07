@@ -4,6 +4,7 @@ p Rocket is still in very early development, and there's lot that needs to be do
 
 ul
   li ModelRocket will support basic relations. Probably has_one, has_many, belongs_to, as well as variants that involve embedded records.
+  li We don't have anything for dealing with embedded documents yet. This will need to be able to run arbitrarily deep and support conversions, validations, etc.
   li
     \ModelRocket needs more validation types to better match the functionality of ActiveRecord.
     ul
@@ -15,7 +16,7 @@ ul
   li GroundControl doesn't currently support anything like a redirect. State gets a little bit messy in an evented app, so we'll need to be sure that we can maintain state while passing control to another action.
   li More callbacks. We need to provide a JS callback for after the user first establishes a connection, after the user reconnects, and a few other things. We also need more callbacks on the Ruby side.
   li Rocket is currently just some files you have to drop into a directory. It works, but a gem and some generators would be much more convenient.
-  li File uploads are a bit tricky. HTTP makes it fairly easy, but we aren't using HTTP. We could either pipe the files through HTTP, or use the JS File API. There are some significant questions to be answered on this topic. Look into Water Under Ice.
+  li File uploads are a bit tricky. Rather than attempt to provide a widget, why not provide a JS class/object/function/whatever that they register the download with, then they can access the object to do whatever they want. For instance, some users may prefer to create a record and defer the file upload, and attach the file after. Others may prefer to defer record creation until the file upload is complete. This would allow them that flexibility. It would also be one less thing tied to a JS framework. The object would only need a few callbacks, such as start, complete, tick, etc.
   li Better documentation!
   li Filters for controllers.
   li Better way for users to include JS and CSS files without having to modify the main HTML file.

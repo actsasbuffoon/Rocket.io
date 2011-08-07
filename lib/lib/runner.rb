@@ -43,12 +43,7 @@ class Rocket
   class RocketHttpServer < EM::Connection
     include EM::HttpServer
     
-    @@content_types = {
-      html: "text/html",
-      js: "text/javascript",
-      css: "text/css",
-      png: "image/png"
-    }
+    require File.join(APP_ROOT, "lib", "lib", "mime_types.rb")
     
     def post_init
       super

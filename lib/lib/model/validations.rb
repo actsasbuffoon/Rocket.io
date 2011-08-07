@@ -1,9 +1,11 @@
 class Rocket
   module Model
     
+    on_bolted do |cls|
+      cls.instance_variable_set :@validations, {}
+    end
+    
     module ClassMethods
-      @@validations = {}
-      
       def validates(field, *args)
         if args.last.class == Hash
           t_args = args.last
@@ -11,8 +13,8 @@ class Rocket
           t_args = {}
         end
         t_args[:method] = args.shift
-        @@validations[field] ||= []
-        @@validations[field] << t_args
+        @validations[field] ||= []
+        @validations[field] << t_args
       end
       
       def validates_format_of(field, args = {})
@@ -78,7 +80,7 @@ class Rocket
       end
       
       def validations
-        @@validations
+        @validations
       end
     end
     
@@ -91,7 +93,6 @@ class Rocket
         @errors = []
         @attributes.each_pair do |k, v|
           if self.class.validations[k]
-            puts "Validating #{k} with #{self.class.validations[k].inspect}"
             validations = self.class.validations[k]
             validations.each do |validator|
               if validator[:method]

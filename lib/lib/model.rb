@@ -13,40 +13,49 @@ class Rocket
   end
   
   module Model
+    @bolted_callbacks = []
+    
+    def self.on_bolted(&blk)
+      @bolted_callbacks << blk
+    end
     # Handles basic CRUD operations, type casting, validations, and basic relations
     
     # A callback that runs after a class bolts ModelRocket. Should not need
     # to be called directly by users.
     def self.bolted(other)
+      @bolted_callbacks.each {|cb| cb.call(other)}
+    end
+    
+    on_bolted do |other|
       Rocket.models[other.to_s.to_sym] = other
+      other.instance_variable_set :@fields, {}
+      other.instance_variable_set :@collection, nil
     end
     
     module ClassMethods
-      @@fields = {}
-      @@collection = nil
       
       def set_db(db)
-        @@collection = db.collection(self.class.to_s.snake_case)
+        @collection = db.collection(self.class.to_s.snake_case)
       end
       
       # Finds one record and passes it to the callback.
       def find_one(args = {}, &callback)
         targs = {}
         args.each_pair do |k, v|
-          if @@fields[k.to_sym]
-            targs[k.to_sym] = Rocket::Model.conversion_methods[@@fields[k.to_sym]].call v
+          if @fields[k.to_sym]
+            targs[k.to_sym] = Rocket::Model.conversion_methods[@fields[k.to_sym]].call v
           else
             targs[k.to_sym] = v
           end
         end
-        @@collection.find(targs, {limit: 1}) do |result|
+        @collection.find(targs, {limit: 1}) do |result|
           callback.call self.new(result.first)
         end
       end
       
       # Finds multiple records and passes them to the callback.
       def find(args = {}, &callback)
-        @@collection.find(args) do |result|
+        @collection.find(args) do |result|
           callback.call result.to_a.map {|r| self.new r}
         end
       end
@@ -54,8 +63,8 @@ class Rocket
       # This is how you define a field in ModelRocket. Fields are useful for
       # automatic type conversion, validation, etc.
       def field(name, type)
-        @@fields ||= {}
-        @@fields[name] = type
+        @fields ||= {}
+        @fields[name] = type
         define_method name do
           @attributes[name]
         end
@@ -66,11 +75,11 @@ class Rocket
       end
       
       def fields
-        @@fields
+        @fields
       end
       
       def collection
-        @@collection
+        @collection
       end
       
     end
@@ -82,7 +91,7 @@ class Rocket
         run_callback :before_validation
         if validate_fields
           run_callback :after_validation
-          if self._id
+          if !@new_record
             run_callback :before_save
             run_callback :before_update
             id = self._id
@@ -100,19 +109,14 @@ class Rocket
             callback.call(record.first, true)
           end
         else
-          puts "Errors: #{@errors.inspect}"
           callback.call(self, false)
         end
-      end
-      
-      def attributes
-        @attributes
       end
       
       # Destroys the record and runs the callback on completion.
       def destroy(&callback)
         run_callback :before_destroy
-        if @attributes["_id"]
+        if !@new_record
           self.class.collection.remove({_id: @attributes["_id"]})
           callback.call true
         else
@@ -125,7 +129,13 @@ class Rocket
       # the data through any required converters as well.
       def initialize(args)
         @attributes = {}
-        puts "Initializing #{self.class} with args: #{args.inspect}"
+        if !args[:_id]
+          @attributes[:_id] = BSON::ObjectId.new
+          @new_record = true
+        else
+          @new_record = false
+        end
+          
         if args
           args.each_pair do |k, v|
             k = k.to_sym
@@ -140,6 +150,15 @@ class Rocket
             @attributes[f] ||= nil
           end
         end
+        if self.class.relations && self.class.relations.length > 0
+          self.class.relations.each_pair do |cls, relation|
+            @attributes[relation[:id]] ||= nil if relation[:id]
+          end
+        end
+      end
+      
+      def attributes
+        @attributes
       end
       
       # Merges the contents of the hash argument into the object. Note that
@@ -151,7 +170,7 @@ class Rocket
       end
       
       def to_json(*args)
-        attributes.to_json()
+        @attributes.to_json()
       end
     end
     
@@ -160,7 +179,6 @@ class Rocket
 end
 
 Dir[File.join(APP_ROOT, "lib", "lib", "model", "*.rb")].each do |f|
-  puts "Requiring #{File.expand_path f}"
   require File.expand_path(f)
 end
 

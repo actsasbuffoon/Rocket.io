@@ -1,6 +1,5 @@
 require 'eventmachine'
 require 'em-websocket'
-require 'ap'
 require 'em-redis'
 require 'em-mongo'
 require 'evma_httpserver'
@@ -8,6 +7,8 @@ require 'json'
 require 'v8'
 require 'slop'
 require 'nokogiri'
+require 'active_support'
+require 'active_support/core_ext/string'
 
 APP_NAME = "movie_app"
 
