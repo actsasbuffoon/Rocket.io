@@ -305,6 +305,85 @@ buf.push('</div>');}return buf.join("");
 templates.movie = {}
 
 
+// * * * * * Dump of templates.movie.about * * * * *
+
+
+templates.movie.about = function anonymous(locals) {
+var __ = { lineno: 1, input: "h1 About\n\np This site tells you about all the crappy movies that have been released.", filename: undefined };
+function rethrow(err, str, filename, lineno){
+  var context = 3
+    , lines = str.split('\n')
+    , start = Math.max(lineno - context, 0)
+    , end = Math.min(lines.length, lineno + context); 
+
+  // Error context
+  var context = lines.slice(start, end).map(function(line, i){
+    var curr = i + start + 1;
+    return (curr == lineno ? '  > ' : '    ')
+      + curr
+      + '| '
+      + line;
+  }).join('\n');
+
+  // Alter exception message
+  err.path = filename;
+  err.message = (filename || 'Jade') + ':' + lineno 
+    + '\n' + context + '\n\n' + err.message;
+  throw err;
+}
+try {
+function attrs(obj){
+  var buf = []
+    , terse = obj.terse;
+  delete obj.terse;
+  var keys = Object.keys(obj)
+    , len = keys.length;
+  if (len) {
+    buf.push('');
+    for (var i = 0; i < len; ++i) {
+      var key = keys[i]
+        , val = obj[key];
+      if ('boolean' == typeof val || null == val) {
+        if (val) {
+          terse
+            ? buf.push(key)
+            : buf.push(key + '="' + key + '"');
+        }
+      } else if ('class' == key && Array.isArray(val)) {
+        buf.push(key + '="' + escape(val.join(' ')) + '"');
+      } else {
+        buf.push(key + '="' + escape(val) + '"');
+      }
+    }
+  }
+  return buf.join(' ');
+}
+function escape(html){
+  return String(html)
+    .replace(/&(?!\w+;)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+var buf = [];
+with (locals || {}) {var interp;
+__.lineno = 1;
+__.lineno = 1;
+buf.push('<h1>');
+buf.push('About');
+__.lineno = undefined;
+buf.push('</h1>');
+__.lineno = 3;
+buf.push('<p>');
+buf.push('This site tells you about all the crappy movies that have been released.');
+__.lineno = undefined;
+buf.push('</p>');}return buf.join("");
+} catch (err) {
+  rethrow(err, __.input, __.filename, __.lineno);
+}
+}
+
+
 // * * * * * Dump of templates.movie.edit * * * * *
 
 
