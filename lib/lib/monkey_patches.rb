@@ -13,23 +13,28 @@ class String
   
 end
 
-module EventMachine
-  module Protocols
-    module Redis
-      def blpop(*lists, timeout)
-        call_command([:blpop, *lists, timeout]) do |s|
-          yield s if block_given?
-        end
-      end
-    end
-  end
-end
-
 module BSON
   class ObjectId
     def to_json(*args)
       v = super
       v
+    end
+  end
+end
+
+module Sinatra
+  module Async
+    module Helpers
+      
+      def async_schedule(&b)
+        if settings.environment == :test
+          settings.set :async_schedules, [] unless settings.respond_to? :async_schedules
+          settings.async_schedules << lambda { async_catch_execute(&b) }
+        else
+          native_async_schedule { Fiber.new {async_catch_execute(&b)}.resume }
+        end
+      end
+      
     end
   end
 end

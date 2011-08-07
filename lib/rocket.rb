@@ -1,11 +1,15 @@
-require 'eventmachine'
+require 'em-synchrony'
+require 'em-synchrony/em-redis'
+require 'thin'
+require 'sinatra/async'
+
+#require 'eventmachine'
 require 'em-websocket'
-require 'em-redis'
-require 'em-mongo'
-require 'evma_httpserver'
+#require 'em-redis'
+#require 'em-mongo'
+#require 'evma_httpserver'
 require 'json'
 require 'v8'
-require 'slop'
 require 'nokogiri'
 require 'active_support'
 require 'active_support/core_ext/string'
@@ -18,7 +22,6 @@ require File.join(APP_ROOT, "lib", "lib", 'bolt.rb')
 require File.join(APP_ROOT, "lib", "lib", 'initializer.rb')
 require File.join(APP_ROOT, "lib", "lib", 'rocket_user.rb')
 require File.join(APP_ROOT, "lib", "lib", 'controller.rb')
-require File.join(APP_ROOT, "lib", "lib", 'model.rb')
 require File.join(APP_ROOT, "lib", "lib", 'docs.rb')
 require File.join(APP_ROOT, "lib", "lib", 'runner.rb')
 
