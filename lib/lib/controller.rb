@@ -10,6 +10,7 @@ class Rocket
     
     def self.bolted(other)
       Rocket.controllers[other.to_s.sub(/Controller$/, "").to_sym] = other
+      other.send :attr_accessor, :args, :params, :current_user
     end
     
     module ClassMethods
@@ -20,30 +21,6 @@ class Rocket
       
       def actions
         @actions
-      end
-      
-      def params
-        @params
-      end
-      
-      def current_user
-        @current_user
-      end
-      
-      def args
-        @args
-      end
-      
-      def set_params(o)
-        @params = o
-      end
-      
-      def set_current_user(o)
-        @current_user = o
-      end
-      
-      def set_args(o)
-        @args = o
       end
     end
     
@@ -73,17 +50,25 @@ class Rocket
         t
       end
       
+      def actions
+        self.class.actions
+      end
+      
+      def redirect(command)
+        ROCKET.parse_command(current_user, command)
+      end
+      
       def process_command(user, command, args, params = nil)
         command = command.to_sym
-        if self.class.actions.include?(command)
+        if actions.include?(command)
           if params
-            self.class.set_params(args["params"] ? params.merge(paramify(args.delete "params")) : params)
+            @params = args["params"] ? params.merge(paramify(args.delete "params")) : params
           else
-            self.class.set_params(args["params"] ? paramify(args.delete "params") : nil)
+            @params = args["params"] ? paramify(args.delete "params") : nil
           end
-          self.class.set_current_user user
-          self.class.set_args args
-          self.class.actions[command.to_sym].call
+          @current_user = user
+          @args = args
+          self.instance_exec &actions[command.to_sym]
         else
           raise "Class #{self.class} does not have an action named #{command}"
         end
