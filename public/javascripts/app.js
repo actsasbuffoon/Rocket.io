@@ -2,10 +2,6 @@ var jade = require('jade')
 var socket = false
 var first_connect = false
 
-var form_errors = function(errors) {
-  $("#form_errors").html(templates.app.form_errors(errors))
-}
-
 var submit_callback = function(evnt) {
   evnt.preventDefault()
   elem = $(evnt.target)

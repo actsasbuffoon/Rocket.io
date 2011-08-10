@@ -17,7 +17,7 @@ p Since Rocket.io uses WebSockets for everything, you always have a persistent c
 
 p WebSockets also don't use headers like HTTP. The overhead on a WebSocket request is literally just a few bytes!
 
-p As for concurrency, most web frameworks use threads or processing forking. Both methods are slow and consume a lot of memory. Rocket uses neither. Instead we use an evented programming model, much like Node.js and Nginx. This results in very fast, highly concurrent code.
+p As for concurrency, most web frameworks use threads or process forking. Both methods are slow and consume a lot of memory. Rocket uses neither. Instead we use an evented programming model, much like Node.js and Nginx. This results in very fast, highly concurrent code.
 
 p Aside from speed, WebSockets allow you to push data directly to a user. No need for AJAX, comet, long-polling, etc.
 
@@ -27,4 +27,6 @@ p Rocket.io is aimed at one thing; realtime web applications. There are many sor
 
 p Because everything in Rocket is loaded via WebSockets, things made with Rocket are virtually invisible to search engines. That's a big deal for a blog, but makes sense if you're building a desktop-like application in the browser. Would it make sense for a search engine to index the preferences panel in iTunes?
 
-p Rocket's performance is very admirable, but a lot of it owes to the evented programming model. Simply put, you're going to have to use evented database drivers, all your calls to external services are going to need to be done in an evented manner, etc. If you fail to do that, then Rocket will block on every request, and your server will become unbearably slow. There's no way out of it; you're going to have to write callbacks.
+p Rocket's performance is very admirable, but a lot of it owes to the evented programming model. Simply put, you're going to have to use evented database drivers, all your calls to external services are going to need to be done in an evented manner, etc. If you fail to do that, then Rocket will block on every request, and your server will become unbearably slow.
+
+p Fortunately, Ilya Grigorik (who is rapidly becoming one of my favorite Rubyists) created EM-Synchrony to make writing evented code easier. You've undoubtedly had to deal with deeply nested callbacks in JS, and are probably aware that evented code usually looks the same way. Thankfully Synchrony simplifies evented code, allowing you to write code that looks like blocking code.
