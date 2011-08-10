@@ -66,6 +66,10 @@ class Rocket
   def run
     EventMachine.synchrony do
       
+      Dir[File.join APP_ROOT, "config", "initializers", "*.rb"].each do |file|
+        require file
+      end
+      
       @redis = EM::Protocols::Redis.connect
       @redis_message_queue_connection = EM::Protocols::Redis.connect
       

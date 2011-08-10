@@ -52,7 +52,7 @@ $(document).ready(function() {
         socket.onopen = function() {
           if (!first_connect) {
             $("body").html(templates.app.layout())
-            rocket({"Movie.about": ""})
+            rocket({"Movie.index": ""})
           }
           first_connect = true
           console.log("Connected to server")

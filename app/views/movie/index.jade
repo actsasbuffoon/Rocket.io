@@ -1,9 +1,12 @@
-h1 Listing Movies
+- if (movies.length > 0)
+  h1 Listing Movies
 
-#movie-list
-  ul.movies
-    - for (var i in movies)
-      li
-        != link_to(movies[i].name, {"Movie.show": {_id: movies[i]["_id"]}})
+  #movie-list
+    ul.movies
+      - for (var i in movies)
+        li
+          != link_to(movies[i].name, {"Movie.show": {_id: movies[i]["_id"]}})
+- else
+  h1 No movies have been entered yet
 
 != link_to("Create New Listing", {"Movie.new": ""}, {class: "button"})

@@ -7,11 +7,90 @@ templates = {}
 templates.app = {}
 
 
+// * * * * * Dump of templates.app.about * * * * *
+
+
+templates.app.about = function anonymous(locals) {
+var __ = { lineno: 1, input: "h1 About\n\np This site tells you about all the crappy movies that have been released.", filename: undefined };
+function rethrow(err, str, filename, lineno){
+  var context = 3
+    , lines = str.split('\n')
+    , start = Math.max(lineno - context, 0)
+    , end = Math.min(lines.length, lineno + context); 
+
+  // Error context
+  var context = lines.slice(start, end).map(function(line, i){
+    var curr = i + start + 1;
+    return (curr == lineno ? '  > ' : '    ')
+      + curr
+      + '| '
+      + line;
+  }).join('\n');
+
+  // Alter exception message
+  err.path = filename;
+  err.message = (filename || 'Jade') + ':' + lineno 
+    + '\n' + context + '\n\n' + err.message;
+  throw err;
+}
+try {
+function attrs(obj){
+  var buf = []
+    , terse = obj.terse;
+  delete obj.terse;
+  var keys = Object.keys(obj)
+    , len = keys.length;
+  if (len) {
+    buf.push('');
+    for (var i = 0; i < len; ++i) {
+      var key = keys[i]
+        , val = obj[key];
+      if ('boolean' == typeof val || null == val) {
+        if (val) {
+          terse
+            ? buf.push(key)
+            : buf.push(key + '="' + key + '"');
+        }
+      } else if ('class' == key && Array.isArray(val)) {
+        buf.push(key + '="' + escape(val.join(' ')) + '"');
+      } else {
+        buf.push(key + '="' + escape(val) + '"');
+      }
+    }
+  }
+  return buf.join(' ');
+}
+function escape(html){
+  return String(html)
+    .replace(/&(?!\w+;)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+var buf = [];
+with (locals || {}) {var interp;
+__.lineno = 1;
+__.lineno = 1;
+buf.push('<h1>');
+buf.push('About');
+__.lineno = undefined;
+buf.push('</h1>');
+__.lineno = 3;
+buf.push('<p>');
+buf.push('This site tells you about all the crappy movies that have been released.');
+__.lineno = undefined;
+buf.push('</p>');}return buf.join("");
+} catch (err) {
+  rethrow(err, __.input, __.filename, __.lineno);
+}
+}
+
+
 // * * * * * Dump of templates.app.form_errors * * * * *
 
 
 templates.app.form_errors = function anonymous(locals) {
-var __ = { lineno: 1, input: "h2 There was an error with processing your input\nul\n  - for (var er in errors) {\n    li= errors[er]\n  - }", filename: undefined };
+var __ = { lineno: 1, input: "h2 There was an error with processing your input\nul\n  - for (var k in errors)\n    li= k + \" \" + errors[k]", filename: undefined };
 function rethrow(err, str, filename, lineno){
   var context = 3
     , lines = str.split('\n')
@@ -79,88 +158,17 @@ __.lineno = 3;
 buf.push('<ul>');
 __.lineno = undefined;
 __.lineno = 3;
- for (var er in errors) {
+ for (var k in errors)
 {
 __.lineno = 4;
 __.lineno = 4;
 buf.push('<li>');
-var __val__ = errors[er]
+var __val__ = k + " " + errors[k]
 buf.push(escape(null == __val__ ? "" : __val__));
 __.lineno = undefined;
 buf.push('</li>');
 }
-__.lineno = 5;
- }
 buf.push('</ul>');}return buf.join("");
-} catch (err) {
-  rethrow(err, __.input, __.filename, __.lineno);
-}
-}
-
-
-// * * * * * Dump of templates.app.index * * * * *
-
-
-templates.app.index = function anonymous(locals) {
-var __ = { lineno: 1, input: "", filename: undefined };
-function rethrow(err, str, filename, lineno){
-  var context = 3
-    , lines = str.split('\n')
-    , start = Math.max(lineno - context, 0)
-    , end = Math.min(lines.length, lineno + context); 
-
-  // Error context
-  var context = lines.slice(start, end).map(function(line, i){
-    var curr = i + start + 1;
-    return (curr == lineno ? '  > ' : '    ')
-      + curr
-      + '| '
-      + line;
-  }).join('\n');
-
-  // Alter exception message
-  err.path = filename;
-  err.message = (filename || 'Jade') + ':' + lineno 
-    + '\n' + context + '\n\n' + err.message;
-  throw err;
-}
-try {
-function attrs(obj){
-  var buf = []
-    , terse = obj.terse;
-  delete obj.terse;
-  var keys = Object.keys(obj)
-    , len = keys.length;
-  if (len) {
-    buf.push('');
-    for (var i = 0; i < len; ++i) {
-      var key = keys[i]
-        , val = obj[key];
-      if ('boolean' == typeof val || null == val) {
-        if (val) {
-          terse
-            ? buf.push(key)
-            : buf.push(key + '="' + key + '"');
-        }
-      } else if ('class' == key && Array.isArray(val)) {
-        buf.push(key + '="' + escape(val.join(' ')) + '"');
-      } else {
-        buf.push(key + '="' + escape(val) + '"');
-      }
-    }
-  }
-  return buf.join(' ');
-}
-function escape(html){
-  return String(html)
-    .replace(/&(?!\w+;)/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-var buf = [];
-with (locals || {}) {var interp;
-__.lineno = 1;}return buf.join("");
 } catch (err) {
   rethrow(err, __.input, __.filename, __.lineno);
 }
@@ -171,7 +179,7 @@ __.lineno = 1;}return buf.join("");
 
 
 templates.app.layout = function anonymous(locals) {
-var __ = { lineno: 1, input: "#wrapper\n  #header\n    h1 MovieList\n  .table\n    #main\n      #navigation\n        ul\n          li\n            != link_to(\"Movies\", {\"Movie.index\": \"\"})\n      #content\n  #footer\n    p Don't steal my stuff.", filename: undefined };
+var __ = { lineno: 1, input: "#wrapper\n  #header\n    h1 MovieList\n  .table\n    #main\n      #navigation\n        ul\n          li!= link_to(\"Movies\", {\"Movie.index\": \"\"})\n          li!= link_to(\"About\", {\"App.about\": \"\"})\n      #content\n  #footer\n    p Don't steal my stuff.", filename: undefined };
 function rethrow(err, str, filename, lineno){
   var context = 3
     , lines = str.split('\n')
@@ -264,12 +272,17 @@ __.lineno = undefined;
 __.lineno = 8;
 buf.push('<ul>');
 __.lineno = undefined;
-__.lineno = 9;
+__.lineno = 8;
 buf.push('<li>');
-__.lineno = undefined;
-__.lineno = 9;
 var __val__ = link_to("Movies", {"Movie.index": ""})
 buf.push(null == __val__ ? "" : __val__);
+__.lineno = undefined;
+buf.push('</li>');
+__.lineno = 9;
+buf.push('<li>');
+var __val__ = link_to("About", {"App.about": ""})
+buf.push(null == __val__ ? "" : __val__);
+__.lineno = undefined;
 buf.push('</li>');
 buf.push('</ul>');
 buf.push('</div>');
@@ -303,85 +316,6 @@ buf.push('</div>');}return buf.join("");
 
 
 templates.movie = {}
-
-
-// * * * * * Dump of templates.movie.about * * * * *
-
-
-templates.movie.about = function anonymous(locals) {
-var __ = { lineno: 1, input: "h1 About\n\np This site tells you about all the crappy movies that have been released.", filename: undefined };
-function rethrow(err, str, filename, lineno){
-  var context = 3
-    , lines = str.split('\n')
-    , start = Math.max(lineno - context, 0)
-    , end = Math.min(lines.length, lineno + context); 
-
-  // Error context
-  var context = lines.slice(start, end).map(function(line, i){
-    var curr = i + start + 1;
-    return (curr == lineno ? '  > ' : '    ')
-      + curr
-      + '| '
-      + line;
-  }).join('\n');
-
-  // Alter exception message
-  err.path = filename;
-  err.message = (filename || 'Jade') + ':' + lineno 
-    + '\n' + context + '\n\n' + err.message;
-  throw err;
-}
-try {
-function attrs(obj){
-  var buf = []
-    , terse = obj.terse;
-  delete obj.terse;
-  var keys = Object.keys(obj)
-    , len = keys.length;
-  if (len) {
-    buf.push('');
-    for (var i = 0; i < len; ++i) {
-      var key = keys[i]
-        , val = obj[key];
-      if ('boolean' == typeof val || null == val) {
-        if (val) {
-          terse
-            ? buf.push(key)
-            : buf.push(key + '="' + key + '"');
-        }
-      } else if ('class' == key && Array.isArray(val)) {
-        buf.push(key + '="' + escape(val.join(' ')) + '"');
-      } else {
-        buf.push(key + '="' + escape(val) + '"');
-      }
-    }
-  }
-  return buf.join(' ');
-}
-function escape(html){
-  return String(html)
-    .replace(/&(?!\w+;)/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-var buf = [];
-with (locals || {}) {var interp;
-__.lineno = 1;
-__.lineno = 1;
-buf.push('<h1>');
-buf.push('About');
-__.lineno = undefined;
-buf.push('</h1>');
-__.lineno = 3;
-buf.push('<p>');
-buf.push('This site tells you about all the crappy movies that have been released.');
-__.lineno = undefined;
-buf.push('</p>');}return buf.join("");
-} catch (err) {
-  rethrow(err, __.input, __.filename, __.lineno);
-}
-}
 
 
 // * * * * * Dump of templates.movie.edit * * * * *
@@ -498,7 +432,7 @@ buf.push('</form>');}return buf.join("");
 
 
 templates.movie.index = function anonymous(locals) {
-var __ = { lineno: 1, input: "h1 Listing Movies\n\n#movie-list\n  ul.movies\n    - for (var i in movies)\n      li\n        != link_to(movies[i].name, {\"Movie.show\": {_id: movies[i][\"_id\"]}})\n\n!= link_to(\"Create New Listing\", {\"Movie.new\": \"\"}, {class: \"button\"})", filename: undefined };
+var __ = { lineno: 1, input: "- if (movies.length > 0)\n  h1 Listing Movies\n\n  #movie-list\n    ul.movies\n      - for (var i in movies)\n        li\n          != link_to(movies[i].name, {\"Movie.show\": {_id: movies[i][\"_id\"]}})\n- else\n  h1 No movies have been entered yet\n\n!= link_to(\"Create New Listing\", {\"Movie.new\": \"\"}, {class: \"button\"})", filename: undefined };
 function rethrow(err, str, filename, lineno){
   var context = 3
     , lines = str.split('\n')
@@ -558,35 +492,49 @@ var buf = [];
 with (locals || {}) {var interp;
 __.lineno = 1;
 __.lineno = 1;
+ if (movies.length > 0)
+{
+__.lineno = 2;
+__.lineno = 2;
 buf.push('<h1>');
 buf.push('Listing Movies');
 __.lineno = undefined;
 buf.push('</h1>');
-__.lineno = 3;
+__.lineno = 4;
 buf.push('<div');
 buf.push(attrs({ 'id':('movie-list') }));
 buf.push('>');
 __.lineno = undefined;
-__.lineno = 4;
+__.lineno = 5;
 buf.push('<ul');
 buf.push(attrs({ "class": ('movies') }));
 buf.push('>');
 __.lineno = undefined;
-__.lineno = 5;
+__.lineno = 6;
  for (var i in movies)
 {
-__.lineno = 6;
 __.lineno = 7;
+__.lineno = 8;
 buf.push('<li>');
 __.lineno = undefined;
-__.lineno = 7;
+__.lineno = 8;
 var __val__ = link_to(movies[i].name, {"Movie.show": {_id: movies[i]["_id"]}})
 buf.push(null == __val__ ? "" : __val__);
 buf.push('</li>');
 }
 buf.push('</ul>');
 buf.push('</div>');
-__.lineno = 9;
+}
+ else
+{
+__.lineno = 10;
+__.lineno = 10;
+buf.push('<h1>');
+buf.push('No movies have been entered yet');
+__.lineno = undefined;
+buf.push('</h1>');
+}
+__.lineno = 12;
 var __val__ = link_to("Create New Listing", {"Movie.new": ""}, {class: "button"})
 buf.push(null == __val__ ? "" : __val__);}return buf.join("");
 } catch (err) {

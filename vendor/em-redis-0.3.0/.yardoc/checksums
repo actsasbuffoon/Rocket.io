@@ -1,0 +1,3 @@
+lib/em-redis.rb 439cbcd7f770d5d70d3f950dcf3212c1f70a8ecb
+lib/em-redis/version.rb 0e08653bc363d02223718a1f1fc1d1c61fa53c88
+lib/em-redis/redis_protocol.rb 91fe563d01473b9ef51491cac7755c318da68ac1

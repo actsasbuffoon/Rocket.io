@@ -1,15 +1,15 @@
 MovieController = function() {
-  //this.index = function(args) {
-  //  $("#content").html(templates.movie.index(args))
-  //}
+  this.index = function(args) {
+    $("#content").html(templates.movie.index(args))
+  }
 
-  //this.show = function(args) {
-  //  $("#content").html(templates.movie.show(args))
-  //}
+  this.show = function(args) {
+    $("#content").html(templates.movie.show(args))
+  }
   
-  //this.edit = function(args) {
-  //  $("#content").html(templates.movie.edit(args))
-  //}
+  this.edit = function(args) {
+    $("#content").html(templates.movie.edit(args))
+  }
   
   this.about = function(args) {
     $("#content").html(templates.movie.about(args))

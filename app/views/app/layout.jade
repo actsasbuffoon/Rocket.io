@@ -5,8 +5,8 @@
     #main
       #navigation
         ul
-          li
-            != link_to("Movies", {"Movie.index": ""})
+          li!= link_to("Movies", {"Movie.index": ""})
+          li!= link_to("About", {"App.about": ""})
       #content
   #footer
     p Don't steal my stuff.

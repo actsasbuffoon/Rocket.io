@@ -36,7 +36,6 @@ class Rocket
             };
           EOS
             js.eval scrpt
-          
         end
         chunks[-1] = chunks[-1].sub(/\.jade$/, "")
         js['template_text'] = File.read(file)
@@ -63,7 +62,6 @@ class Rocket
 #{scrpt}
 controllers['#{filename.class_case}Controller'] = new #{filename.class_case}Controller()
 EOS
-      puts "\n\n\n#{scrpt}\n\n\n"
       js.eval scrpt
     end
     File.open(File.join(APP_ROOT, "public", "javascripts", "rocket_controllers.js"), "w") {|f| f.write recursive_object_dump(js["controllers"], "controllers")}
