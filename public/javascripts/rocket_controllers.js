@@ -23,6 +23,19 @@ controllers.AppController.about = function (args) {
   }
 
 
+// * * * * * Dump of controllers.AppController.show_message * * * * *
+
+
+controllers.AppController.show_message = function (args) {
+    $.gritter.add({
+      title: args["title"],
+      text: args["msg"],
+      sticky: false,
+      time: 8000
+    })
+  }
+
+
 // * * * * * Dump of controllers.MovieController * * * * *
 
 
