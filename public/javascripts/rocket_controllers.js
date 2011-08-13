@@ -1,6 +1,36 @@
 controllers = {}
 
 
+// * * * * * Dump of controllers.ActorController * * * * *
+
+
+controllers.ActorController = {}
+
+
+// * * * * * Dump of controllers.ActorController.index * * * * *
+
+
+controllers.ActorController.index = function (args) {
+    $("#content").html(templates.actor.index(args))
+  }
+
+
+// * * * * * Dump of controllers.ActorController.show * * * * *
+
+
+controllers.ActorController.show = function (args) {
+    $("#content").html(templates.actor.show(args))
+  }
+
+
+// * * * * * Dump of controllers.ActorController.edit * * * * *
+
+
+controllers.ActorController.edit = function (args) {
+    $("#content").html(templates.actor.edit(args))
+  }
+
+
 // * * * * * Dump of controllers.AppController * * * * *
 
 
@@ -20,6 +50,14 @@ controllers.AppController.form_errors = function (args) {
 
 controllers.AppController.about = function (args) {
     $("#content").html(templates.app.about(args))
+  }
+
+
+// * * * * * Dump of controllers.AppController.upload * * * * *
+
+
+controllers.AppController.upload = function (args) {
+    $("#content").html(templates.app.upload(args))
   }
 
 
@@ -63,12 +101,4 @@ controllers.MovieController.show = function (args) {
 
 controllers.MovieController.edit = function (args) {
     $("#content").html(templates.movie.edit(args))
-  }
-
-
-// * * * * * Dump of controllers.MovieController.about * * * * *
-
-
-controllers.MovieController.about = function (args) {
-    $("#content").html(templates.movie.about(args))
   }

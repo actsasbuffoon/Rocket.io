@@ -1,0 +1,12 @@
+- if (actors.length > 0)
+  h1 Listing Actors
+
+  #actor-list
+    ul.actors
+      - for (var i in actors)
+        li
+          != link_to(actors[i].first_name + " " + actors[i].last_name, {"Actor.show": {_id: actors[i]["_id"]}})
+- else
+  h1 No actors have been entered yet
+
+!= link_to("Create New Listing", {"Actor.new": ""}, {class: "button"})

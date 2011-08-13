@@ -1,0 +1,8 @@
+h1= actor.first_name + " " + actor.last_name
+
+hr
+!= link_to("Back to actor list", {'Actor.index': ""})
+\ \| 
+!= link_to("Edit", {'Actor.edit': {id: actor._id}})
+\ \| 
+!= link_to("Delete", {"Actor.delete": {id: actor._id}})

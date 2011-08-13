@@ -25,13 +25,12 @@ class Rocket
     end
     
     module InstanceMethods
-      def initialize
-        
-      end
-      
       def paramify(hsh)
+        puts "Attempting to paramify #{hsh.class}: #{hsh.inspect}"
+        return {} if hsh == ""
         t = {}
         hsh.each_pair do |k, v|
+          puts "Working on #{k}: #{v.inspect}"
           chunks = k.split("[").map {|s| s.sub /\]$/, ""}
           if chunks.length > 1
             iter = t
@@ -61,13 +60,8 @@ class Rocket
       def process_command(user, command, args, params = nil)
         command = command.to_sym
         if actions.include?(command)
-          if params
-            @params = args["params"] ? params.merge(paramify(args.delete "params")) : params
-          else
-            @params = args["params"] ? paramify(args.delete "params") : nil
-          end
           @current_user = user
-          @args = args
+          @params = paramify(args)
           self.instance_exec &actions[command.to_sym]
         else
           raise "Class #{self.class} does not have an action named #{command}"

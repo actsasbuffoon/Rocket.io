@@ -1,0 +1,11 @@
+h1= title
+#form_errors
+form(action=action, method='POST')
+  input(type='hidden', name='actor[_id]', value=actor._id)
+  != hidden_input("actor._id", actor._id)
+  
+  != text_input("actor.first_name", actor.first_name)
+  
+  != text_input("actor.last_name", actor.last_name)
+    
+  input(type='submit')
