@@ -53,14 +53,6 @@ controllers.AppController.about = function (args) {
   }
 
 
-// * * * * * Dump of controllers.AppController.upload * * * * *
-
-
-controllers.AppController.upload = function (args) {
-    $("#content").html(templates.app.upload(args))
-  }
-
-
 // * * * * * Dump of controllers.AppController.show_message * * * * *
 
 

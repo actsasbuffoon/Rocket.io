@@ -10,10 +10,6 @@ AppController = function() {
     $("#content").html(templates.app.about(args))
   }
   
-  this.upload = function(args) {
-    $("#content").html(templates.app.upload(args))
-  }
-  
   this.show_message = function(args) {
     $.gritter.add({
       title: args["title"],

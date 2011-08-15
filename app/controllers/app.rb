@@ -5,8 +5,4 @@ class AppController
     current_user.transmit({"App.about" => ""})
   end
   
-  define_action :upload do
-    current_user.transmit({"App.upload" => ""})
-  end
-  
 end

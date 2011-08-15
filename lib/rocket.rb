@@ -1,5 +1,7 @@
 APP_ROOT = File.join *File.dirname(File.expand_path __FILE__).split("/").slice(0..-2)
 
+require 'base64'
+require 'fileutils'
 require 'rubygems'
 require 'mongoid'
 #require 'em-synchrony'

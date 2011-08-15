@@ -498,7 +498,7 @@ buf.push('</ul>');}return buf.join("");
 
 
 templates.app.layout = function anonymous(locals) {
-var __ = { lineno: 1, input: "#wrapper\n  #header\n    h1 MovieList\n  .table\n    #main\n      #navigation\n        ul\n          li!= link_to(\"Movies\", {\"Movie.index\": \"\"})\n          li!= link_to(\"Actors\", {\"Actor.index\": \"\"})\n          li!= link_to(\"About\", {\"App.about\": \"\"})\n          li!= link_to(\"Upload\", {\"App.upload\": \"\"})\n      #content\n  #footer\n    p Don't steal my stuff.", filename: undefined };
+var __ = { lineno: 1, input: "#wrapper\n  #header\n    h1 MovieList\n  .table\n    #main\n      #navigation\n        ul\n          li!= link_to(\"Movies\", {\"Movie.index\": \"\"})\n          li!= link_to(\"Actors\", {\"Actor.index\": \"\"})\n          li!= link_to(\"About\", {\"App.about\": \"\"})\n      #content\n  #footer\n    p Don't steal my stuff.", filename: undefined };
 function rethrow(err, str, filename, lineno){
   var context = 3
     , lines = str.split('\n')
@@ -609,15 +609,9 @@ var __val__ = link_to("About", {"App.about": ""})
 buf.push(null == __val__ ? "" : __val__);
 __.lineno = undefined;
 buf.push('</li>');
-__.lineno = 11;
-buf.push('<li>');
-var __val__ = link_to("Upload", {"App.upload": ""})
-buf.push(null == __val__ ? "" : __val__);
-__.lineno = undefined;
-buf.push('</li>');
 buf.push('</ul>');
 buf.push('</div>');
-__.lineno = 12;
+__.lineno = 11;
 buf.push('<div');
 buf.push(attrs({ 'id':('content') }));
 buf.push('>');
@@ -625,118 +619,17 @@ __.lineno = undefined;
 buf.push('</div>');
 buf.push('</div>');
 buf.push('</div>');
-__.lineno = 13;
+__.lineno = 12;
 buf.push('<div');
 buf.push(attrs({ 'id':('footer') }));
 buf.push('>');
 __.lineno = undefined;
-__.lineno = 14;
+__.lineno = 13;
 buf.push('<p>');
 buf.push('Don\'t steal my stuff.');
 __.lineno = undefined;
 buf.push('</p>');
 buf.push('</div>');
-buf.push('</div>');}return buf.join("");
-} catch (err) {
-  rethrow(err, __.input, __.filename, __.lineno);
-}
-}
-
-
-// * * * * * Dump of templates.app.upload * * * * *
-
-
-templates.app.upload = function anonymous(locals) {
-var __ = { lineno: 1, input: "input#fileupload(name='fileupload', type='file')\ninput(type='button', onclick='readfile()', value='Click me!')\n#filename\n#filesize\n#uploadbar\n#filecontent", filename: undefined };
-function rethrow(err, str, filename, lineno){
-  var context = 3
-    , lines = str.split('\n')
-    , start = Math.max(lineno - context, 0)
-    , end = Math.min(lines.length, lineno + context); 
-
-  // Error context
-  var context = lines.slice(start, end).map(function(line, i){
-    var curr = i + start + 1;
-    return (curr == lineno ? '  > ' : '    ')
-      + curr
-      + '| '
-      + line;
-  }).join('\n');
-
-  // Alter exception message
-  err.path = filename;
-  err.message = (filename || 'Jade') + ':' + lineno 
-    + '\n' + context + '\n\n' + err.message;
-  throw err;
-}
-try {
-function attrs(obj){
-  var buf = []
-    , terse = obj.terse;
-  delete obj.terse;
-  var keys = Object.keys(obj)
-    , len = keys.length;
-  if (len) {
-    buf.push('');
-    for (var i = 0; i < len; ++i) {
-      var key = keys[i]
-        , val = obj[key];
-      if ('boolean' == typeof val || null == val) {
-        if (val) {
-          terse
-            ? buf.push(key)
-            : buf.push(key + '="' + key + '"');
-        }
-      } else if ('class' == key && Array.isArray(val)) {
-        buf.push(key + '="' + escape(val.join(' ')) + '"');
-      } else {
-        buf.push(key + '="' + escape(val) + '"');
-      }
-    }
-  }
-  return buf.join(' ');
-}
-function escape(html){
-  return String(html)
-    .replace(/&(?!\w+;)/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-var buf = [];
-with (locals || {}) {var interp;
-__.lineno = 1;
-__.lineno = 1;
-buf.push('<input');
-buf.push(attrs({ 'id':('fileupload'), 'name':('fileupload'), 'type':('file') }));
-buf.push('/>');
-__.lineno = 3;
-buf.push('<input');
-buf.push(attrs({ 'type':('button'), 'onclick':('readfile()'), 'value':('Click me!') }));
-buf.push('/>');
-__.lineno = 3;
-buf.push('<div');
-buf.push(attrs({ 'id':('filename') }));
-buf.push('>');
-__.lineno = undefined;
-buf.push('</div>');
-__.lineno = 4;
-buf.push('<div');
-buf.push(attrs({ 'id':('filesize') }));
-buf.push('>');
-__.lineno = undefined;
-buf.push('</div>');
-__.lineno = 5;
-buf.push('<div');
-buf.push(attrs({ 'id':('uploadbar') }));
-buf.push('>');
-__.lineno = undefined;
-buf.push('</div>');
-__.lineno = 6;
-buf.push('<div');
-buf.push(attrs({ 'id':('filecontent') }));
-buf.push('>');
-__.lineno = undefined;
 buf.push('</div>');}return buf.join("");
 } catch (err) {
   rethrow(err, __.input, __.filename, __.lineno);

@@ -21,6 +21,7 @@ class Rocket
   def compile_templates
     puts "Compiling Templates"
     js = V8::Context.new
+    js.eval "window = {}"
     js.load File.join(APP_ROOT, "public", "javascripts", "jade.js")
     js.load File.join(APP_ROOT, "public", "javascripts", "formtacular.js")
     js.load File.join(APP_ROOT, "public", "javascripts", "rocket_utils.js")
@@ -51,6 +52,7 @@ class Rocket
   def compile_controllers
     puts "Compiling Controllers"
     js = V8::Context.new
+    js.eval "window = {}"
     js.eval "controllers = {}"
     Dir[File.join(APP_ROOT, "app", "controllers", "**", "*.*")].each do |file|
       ext = file.split(".").last
